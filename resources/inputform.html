@@ -6,13 +6,30 @@
 </head>
 
 <body>
-    <form name="pathform" method="get" action="enter_data.php">
+    <form name="pathform" method="get" action="">
         
         Input directory path: <br />
         <input name="link" type="text" size="40" />
         
-        <input type="submit" name="enter" value="GO" />
+        <input type="button" onclick="sendPath(this.form)" value="Start" placeholder="Example - D:\somedir">
     </form>
+    <script src="qrc:///qtwebchannel/qwebchannel.js" type="text/javascript"></script>
+
+
+    <script type="text/javascript">
+    new QWebChannel(qt.webChannelTransport, function(channel){
+                // Set global Qt proxy object
+                window.qProxy = channel.objects.qtProxy;
+            });
+
+
+        function toQT(path){
+           qProxy.setFilePath(path);
+        }
+        function sendPath(form) {
+                toQT(form.elements.link.value);
+        }
+        </script>
 </body>
 
 </html>
